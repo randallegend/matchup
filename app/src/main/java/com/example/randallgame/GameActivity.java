@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity implements CardCallback {
         btnRefresh = findViewById(R.id.btnRefresh);
         rvCards = findViewById(R.id.rvCard);
 
-        cardAdapter = new CardAdapter(cardList, this);
+        cardAdapter = new CardAdapter(this, cardList, this);
         rvCards.setLayoutManager(new GridLayoutManager(this, 3));
         rvCards.setAdapter(cardAdapter);
 
@@ -107,18 +107,19 @@ public class GameActivity extends AppCompatActivity implements CardCallback {
             Toast.makeText(this, "You won! congratulations", Toast.LENGTH_SHORT).show();
         }
 
+        selectedCard = card;
     }
 
     private List<Card> getCardList(){
         cardList.clear();
         List<Card> list = new ArrayList<>();
-        HashMap<String, Drawable> map = new HashMap<>();
-        map.put("Monkey", ContextCompat.getDrawable(this, R.drawable.card_monkey));
-        map.put("Beetle", ContextCompat.getDrawable(this, R.drawable.card_beetle));
-        map.put("Chameleon", ContextCompat.getDrawable(this, R.drawable.card_chameleon));
-        map.put("Cobra", ContextCompat.getDrawable(this, R.drawable.card_cobra));
-        map.put("Raccoon", ContextCompat.getDrawable(this, R.drawable.card_raccoon));
-        map.put("Tiger", ContextCompat.getDrawable(this, R.drawable.card_tiger));
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Monkey", R.drawable.card_monkey);
+        map.put("Beetle", R.drawable.card_beetle);
+        map.put("Chameleon", R.drawable.card_chameleon);
+        map.put("Cobra", R.drawable.card_cobra);
+        map.put("Raccoon", R.drawable.card_raccoon);
+        map.put("Tiger", R.drawable.card_tiger);
         for(String s : map.keySet()){
             list.add(new Card(s, map.get(s)));
             list.add(new Card(s, map.get(s)));

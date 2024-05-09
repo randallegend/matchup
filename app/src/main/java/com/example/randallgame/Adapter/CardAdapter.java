@@ -1,11 +1,13 @@
 package com.example.randallgame.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.randallgame.Callback.CardCallback;
@@ -19,9 +21,11 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     List<Card> cardList = new ArrayList<>();
     CardCallback cardCallback;
+    Context context;
 
-    public CardAdapter(List<Card> cardList, CardCallback cardCallback){
+    public CardAdapter(Context context, List<Card> cardList, CardCallback cardCallback){
         this.cardList = cardList;
+        this.context = context;
         this.cardCallback = cardCallback;
     }
     @NonNull
@@ -34,7 +38,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CardAdapter.ViewHolder holder, int position) {
         Card card = cardList.get(position);
-        holder.imgCard.setImageDrawable(card.getDrawable());
+        holder.imgCard.setImageDrawable(ContextCompat.getDrawable(context, card.getResource()));
         card.setCardView(holder.cardView);
     }
 

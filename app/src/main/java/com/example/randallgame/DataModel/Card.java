@@ -17,9 +17,9 @@ public class Card {
         this.cardView = cardView;
     }
 
-    public Card(String name, Drawable drawable){
+    public Card(String name, int resource){
         this.name = name;
-        this.drawable = drawable;
+        this.resource = resource;
     }
     String name;
 
@@ -31,13 +31,14 @@ public class Card {
         this.name = name;
     }
 
-    public Drawable getDrawable() {
-        return drawable;
+
+    int resource;
+
+    public int getResource() {
+        return resource;
     }
 
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
+    public void setResource(int resource) {
+        this.resource = resource;
     }
-
-    Drawable drawable;
 }
