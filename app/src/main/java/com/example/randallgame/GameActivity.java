@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -87,27 +88,55 @@ public class GameActivity extends AppCompatActivity implements CardCallback {
         }
         Collections.shuffle(cardList);
 
-        cardAdapter.notifyDataSetChanged();
         selectedCard = null;
         selectcount = 0;
+
+        cardAdapter = new CardAdapter(this, cardList, this);
+        rvCards.setLayoutManager(new GridLayoutManager(this, 3));
+        rvCards.setAdapter(cardAdapter);
     }
 
+    boolean animating = false;
     @Override
     public void onCardClick(int pos) {
         Card card = cardList.get(pos);
-        selectcount++;
-        card.getCardView().setSelected(true);
-        if(selectedCard != null && !card.getName().equals(selectedCard.getName())){
-            selectcount--;
-            selectedCard.getCardView().setSelected(false);
-            card.getCardView().setSelected(false);
+
+        if(animating) return;
+
+        if(selectedCard != null ){
+            if(card.getCardView() == selectedCard.getCardView()) return;
+            if(selectedCard.getName().equals(card.getName())){
+                card.getCardView().setSelected(true);
+                card.getCardView().setOnClickListener(null);
+                selectedCard.getCardView().setOnClickListener(null);
+                selectcount++;
+            }
+            else{
+                animating = true;
+                MaterialCardView temp = selectedCard.getCardView();
+                card.getCardView().setSelected(true);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        card.getCardView().setSelected(false);
+                        temp.setSelected(false);
+                        selectcount--;
+                        animating = false;
+                    }
+                },500);
+            }
+            selectedCard = null;
+        }
+        else{
+            card.getCardView().setSelected(true);
+            selectcount++;
+            selectedCard = card;
         }
 
         if(selectcount == cardList.size()){
             Toast.makeText(this, "You won! congratulations", Toast.LENGTH_SHORT).show();
         }
 
-        selectedCard = card;
     }
 
     private List<Card> getCardList(){
