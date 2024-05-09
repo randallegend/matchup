@@ -93,14 +93,14 @@ public class GameActivity extends AppCompatActivity implements CardCallback {
     }
 
     @Override
-    public void onCardClick(int pos, MaterialCardView cardView) {
+    public void onCardClick(int pos) {
         Card card = cardList.get(pos);
         selectcount++;
-        cardView.setSelected(true);
+        card.getCardView().setSelected(true);
         if(selectedCard != null && !card.getName().equals(selectedCard.getName())){
             selectcount--;
             selectedCard.getCardView().setSelected(false);
-            cardView.setSelected(false);
+            card.getCardView().setSelected(false);
         }
 
         if(selectcount == cardList.size()){
